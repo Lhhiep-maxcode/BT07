@@ -1,0 +1,136 @@
+Part A:
+1.
+int a = 20, b = 25, c = 30;
+const int* pA = &a;
+int* const pB = &b;
+const int* const pC = &c;
+
+*pA += 1; ==> lỗi con trỏ trỏ đến hằng int
+*pB += 1;
+*pC += 1; ==> lỗi con trỏ trỏ đến hằng int
+pA = NULL;
+pB = NULL; ==> lỗi hằng con trỏ khi trỏ đến NULL
+pC = NULL; ==> lỗi hằng con trỏ khi trỏ đến NULL
+
+2.
+#include<iostream>
+
+using namespace std;
+
+void check(int a[])
+{
+	a[0] = 10;
+}
+
+int main()
+{
+	int a[10] = {0};
+	cout << a[0] << endl;;
+	check(a);
+	cout << a[0];
+	return 0;
+}
+
+=> ta thấy sau khi gọi hàm, mảng gốc cũng thay đổi giá trị a[0] => mảng truyền vào hàm dạng con trỏ
+
+3. 
+#include <iostream>
+
+using namespace std;
+
+int counteven(int* a, int sz)
+{
+	int sum = 0;
+	for(int i = 0; i < sz; i++)
+	{
+		if(!(*(a + i) % 2)) sum++;
+	}
+	return sum;
+}
+
+int main()
+{
+	int a[10] = {0, 3, 2, 6, 8, 12, 7, 5, 15, 10};
+	cout << counteven(&a[5], 5);
+	return 0;
+}
+
+
+4. 
+#include<iostream>
+
+using namespace std;
+
+int findd(int *a, const int &x, int l, int r)
+{
+	int* z = &a[(l + r)/2];
+	if(*z == x) return (l + r)/2;
+	else if(*z > x) return findd( a, x, l, (l + r)/2);
+	return findd( a, x, (l + r)/2 + 1, r);
+
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+	int a[n];
+	for(int i = 0; i < n; i++)
+	{
+		cin >> a[i];
+	}
+	int x;
+	cin >> x;
+	cout << findd(a, x, 0, n - 1);
+	return 0;
+}
+
+5. 
+#include <iostream>
+
+using namespace std;
+
+char* weird_string() { 
+   char c[] = “123345”;
+   return c; 
+}
+
+int main()
+{
+	cout << weird_string();
+	return 0;
+}
+
+WARNING: address of local variable 'c' returned. Output hàm main không xác định 
+7. 
+#include <bits/stdc++.h>
+#include <stdlib.h>
+using namespace std;
+
+
+int cmp(string a, string b)
+{
+	int count = 0;
+	for(int i = 0; i <= b.size() - a.size(); i++)
+	{
+		if(a == b.substr(i, a.size())) count++;
+	}
+	return count;
+}
+
+int main()
+{
+	string a;
+	string b;
+	cin >> a >> b;
+	cout << cmp(a, b);
+	return 0;
+}
+
+PartB:
+1. Output:
+*p3 = B, p3 = 0x5678
+*p3 = A, p3 = 0x1234
+*p1 = A, p1 = 0x1234
+2. *p = 5
+3. biến c là biến kiểu chả, p là con trỏ trỏ đến ô nhớ chưa kiểu double nên p không thể trỏ đến c kiểu char(ép kiểu cũng không được vì ép kiểu trả về giá trị chứ không trả về biến)
